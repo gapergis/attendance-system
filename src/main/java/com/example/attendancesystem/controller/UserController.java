@@ -1,55 +1,57 @@
 package com.example.attendancesystem.controller;
 
-import org.keycloak.KeycloakSecurityContext;
-import org.keycloak.adapters.springsecurity.token.KeycloakAuthenticationToken;
-import org.springframework.http.HttpStatus;
-import org.springframework.security.core.Authentication;
 import com.example.attendancesystem.model.AppUser;
+import com.example.attendancesystem.model.Enrollment;
+import com.example.attendancesystem.service.EnrollmentService;
 import com.example.attendancesystem.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.Optional;
+
 @RestController
+@CrossOrigin
 @RequestMapping("/api/users")
 public class UserController {
 
     @Autowired
     private UserService userService;
 
-    @GetMapping("/login")
-    public ResponseEntity<String> login() {
-        // Get the current authentication from SecurityContextHolder
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    @Autowired
+    private EnrollmentService enrollmentService;
 
-        // Check if the authentication is a KeycloakAuthenticationToken
-        if (authentication instanceof KeycloakAuthenticationToken) {
-            // Cast the authentication to KeycloakAuthenticationToken
-            KeycloakAuthenticationToken keycloakAuthentication = (KeycloakAuthenticationToken) authentication;
-
-            // Get the Keycloak security context
-            KeycloakSecurityContext keycloakSecurityContext = (KeycloakSecurityContext) keycloakAuthentication.getCredentials();
-
-            // Extract relevant information from the security context
-            String accessToken = keycloakSecurityContext.getTokenString();
-            // You can extract more information like username, roles, etc. as needed
-
-            // For now, just return the access token
-            return ResponseEntity.ok(accessToken);
-        } else {
-            // If authentication is not Keycloak, return unauthorized status
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Not authenticated with Keycloak");
-        }
+    @GetMapping ("/")
+    public List<AppUser> getAllUsers() {
+        return userService.getAllUsers();
     }
 
-    @PostMapping("/register")
-    public AppUser registerUser(@RequestBody AppUser user) {
+    @PostMapping("/add")
+    public AppUser addUser(@RequestBody AppUser user) {
         return userService.saveUser(user);
     }
 
-    @GetMapping("/{username}")
-    public AppUser getUser(@PathVariable String username) {
-        return userService.getUserByUsername(username);
+    @GetMapping("/{id}")
+    public Optional<AppUser> getUser(@PathVariable Long id) {
+        return userService.getUserById(id);
     }
+
+    @GetMapping("role/{role}")
+    public List<AppUser> getUserByRole(@PathVariable String role) {
+        // Call the userService method to fetch users by role
+        return userService.getUserByRole(role);
+    }
+
+    @PostMapping("/enroll")
+    public ResponseEntity<?> enrollUserInCourse(@RequestParam Long courseId, @RequestParam Long userId) {
+        try {
+            Enrollment enrolledUser = enrollmentService.enrollUserInCourse(courseId, userId);
+            return ResponseEntity.ok(enrolledUser);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Failed to enroll user: " + e.getMessage());
+        }
+    }
+
+
 }

@@ -1,6 +1,5 @@
-FROM openjdk:17
-VOLUME /tmp
-EXPOSE 8080
-ARG JAR_FILE=target/spring-boot-docker.jar
-ADD ${JAR_FILE} app.jar
+FROM openjdk:22
+ARG JARFILE=target/*.jar
+COPY ./target/attendance-system-0.0.1-SNAPSHOT.jar app.jar
 ENTRYPOINT ["java","-jar","/app.jar"]
+EXPOSE 8083

@@ -1,16 +1,81 @@
 version: '3.7'
 services:
-  keycloak:
-    build: ./keycloak
+
+  attendance-system:
+    image: 'docker-spring-boot-postgres:latest'
+    build:
+      context: .
+    container_name: app
+    depends_on:
+      - db
+    environment:
+      - POSTGRES_USER=$admin
+      - POSTGRES_PASSWORD=$admin
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/attendancedb
+
+    ports:
+      - "8083:8083"
+
+  postgres:
+    image: postgres:latest
+    restart: always
+    environment:
+      POSTGRES_DB: attendancedb,keycloak,kong
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    command: [ "docker-entrypoint.sh", "postgres", "-c", "log_statement=all" ]
+    healthcheck:
+        test: [ "CMD-SHELL", "pg_isready -U admin" ]
+        interval: 5s
+        timeout: 10s
+        retries: 5
+
+  keycloak_web:
+    image: quay.io/keycloak/keycloak:24.0.5
+    container_name: keycloak_web
+    environment:
+      KC_DB: postgres
+      KC_DB_URL: jdbc:postgresql://db:5432/keycloak
+      KC_DB_USERNAME: admin
+      KC_DB_PASSWORD: admin
+
+      KC_HOSTNAME: localhost
+      KC_HOSTNAME_PORT: 8080
+      KC_HOSTNAME_STRICT: false
+      KC_HOSTNAME_STRICT_HTTPS: false
+
+      KC_LOG_LEVEL: info
+      KC_METRICS_ENABLED: true
+      KC_HEALTH_ENABLED: true
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+    command: start-dev
+    depends_on:
+      - postgres
     ports:
       - "8080:8080"
 
-  attendance-management:
-    build: ./attendance-management
+  kong:
+    image: kong:latest
+    container_name: kong
+    restart: unless-stopped
+    environment:
+      KONG_DATABASE: postgres
+      KONG_PG_HOST: kong-database
+      KONG_PG_USER: admin
+      KONG_PG_PASSWORD: admin
+      KONG_PG_DATABASE: kong
     ports:
-      - "8081:8081"
+      - "8000:8000"
+      - "8001:8001"
+      - "8443:8443"
+      - "8444:8444"
+    depends_on:
+      - postgres
 
-  notification-service:
-    build: ./notification-service
-    ports:
-      - "8082:8082"
+volumes:
+  postgres_data:  # Defined once for all PostgreSQL instances

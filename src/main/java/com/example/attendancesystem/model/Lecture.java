@@ -1,24 +1,44 @@
 package com.example.attendancesystem.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.sql.Time;
+import java.time.LocalTime;
+import java.util.Date;
 
 @Entity
+@Table(name = "lecture")
 public class Lecture {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long lecture_id;
+    private Date date;
+    private LocalTime time;
     private String topic;
     private Long courseId;
 
-    public Long getId() {
-        return id;
+
+    public Long getLecture_id() {
+        return lecture_id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setLecture_id(Long lecture_id) {
+        this.lecture_id = lecture_id;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public LocalTime getTime() {
+        return time;
+    }
+
+    public void setTime(LocalTime time) {
+        this.time = time;
     }
 
     public String getTopic() {
@@ -29,11 +49,11 @@ public class Lecture {
         this.topic = topic;
     }
 
-    public Long getCourseId() {
+    public Long getCourse() {
         return courseId;
     }
 
-    public void setCourseId(Long courseId) {
-        this.courseId = courseId;
+    public void setCourse(Long course) {
+        this.courseId = course;
     }
 }

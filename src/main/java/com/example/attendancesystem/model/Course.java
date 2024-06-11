@@ -1,14 +1,19 @@
 package com.example.attendancesystem.model;
 
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
-@Table(name = "courses")
+@Table(name = "course")
 public class Course {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(name = "course_id")
+    private Long courseId;
 
     @Column(nullable = false)
     private String title;
@@ -16,22 +21,34 @@ public class Course {
     @Column(nullable = false, length = 1000)
     private String description;
 
-    // Add other attributes as needed, such as instructor, schedule, etc.
+    private Long professorId;
 
-    // Constructors, getters, setters, and other methods
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "courseId", cascade = CascadeType.ALL)
+    private List<Lecture> courseLectures;
 
-    public Course(String title, String description) {
-        this.title = title;
-        this.description = description;
+    @ManyToMany
+    @JoinTable(
+            name = "enrolled_users",
+            joinColumns = @JoinColumn(name = "course_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id")
+    )
+    private List<AppUser> enrolledUsers;
+
+    public List<Lecture> getCourseLectures() {
+        return courseLectures;
     }
 
-    // Getters and setters
-    public Long getId() {
-        return id;
+
+    public List<AppUser> getEnrolledUsers() {
+        return enrolledUsers;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public Long getCourseId() {
+        return courseId;
+    }
+
+    public void setCourseId(Long courseId) {
+        this.courseId = courseId;
     }
 
     public String getTitle() {
@@ -49,6 +66,15 @@ public class Course {
     public void setDescription(String description) {
         this.description = description;
     }
+
+    public Long getProfessorId() {
+        return professorId;
+    }
+
+    public void setProfessorId(Long professorId) {
+        this.professorId = professorId;
+    }
+
 
     // Other methods
 }
