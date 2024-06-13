@@ -2,6 +2,7 @@ package com.example.attendancesystem.controller;
 
 import com.example.attendancesystem.model.AppUser;
 import com.example.attendancesystem.model.Enrollment;
+import com.example.attendancesystem.repository.UserRepository;
 import com.example.attendancesystem.service.EnrollmentService;
 import com.example.attendancesystem.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,8 +13,8 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@CrossOrigin
-@RequestMapping("/api/users")
+@CrossOrigin(origins = "http://localhost:3000", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT})
+@RequestMapping("/users")
 public class UserController {
 
     @Autowired
@@ -21,6 +22,9 @@ public class UserController {
 
     @Autowired
     private EnrollmentService enrollmentService;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @GetMapping ("/")
     public List<AppUser> getAllUsers() {
@@ -32,10 +36,21 @@ public class UserController {
         return userService.saveUser(user);
     }
 
-    @GetMapping("/{id}")
-    public Optional<AppUser> getUser(@PathVariable Long id) {
+    @GetMapping("/byId/{id}")
+    public Optional<AppUser> getUserById(@PathVariable Long id) {
         return userService.getUserById(id);
     }
+
+    @GetMapping("/byUsername/{username}")
+    public ResponseEntity<?> findByUsername(@PathVariable String username) {
+        AppUser user = userRepository.findByUsername(username);
+        if (user != null) {
+            return ResponseEntity.ok(user);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
 
     @GetMapping("role/{role}")
     public List<AppUser> getUserByRole(@PathVariable String role) {

@@ -15,8 +15,8 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@CrossOrigin
-@RequestMapping("/api/lectures")
+@CrossOrigin(origins = "http://localhost:3000", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT})
+@RequestMapping("/lectures")
 public class LectureController {
 
     @Autowired
