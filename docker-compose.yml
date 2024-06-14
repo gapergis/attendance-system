@@ -46,11 +46,6 @@ services:
       KC_DB_PASSWORD: admin
       KC_HOSTNAME: localhost
       KC_HOSTNAME_PORT: 8080
-      KC_HOSTNAME_STRICT: false
-      KC_HOSTNAME_STRICT_HTTPS: false
-      KC_LOG_LEVEL: info
-      KC_METRICS_ENABLED: true
-      KC_HEALTH_ENABLED: true
       KEYCLOAK_ADMIN: admin
       KEYCLOAK_ADMIN_PASSWORD: admin
     command: start-dev
@@ -113,6 +108,24 @@ services:
     networks:
       - attendancecluster
     command: ["docker-entrypoint.sh", "postgres", "-p", "5434"]
+
+  mailhog:
+    image: mailhog/mailhog
+    ports:
+      - "1025:1025" # SMTP port
+      - "8025:8025" # Web UI
+    networks:
+      - attendancecluster
+
+  frontend:
+    build:
+      context: ./attendance-system-fe/
+      dockerfile: Dockerfile  # Replace with your frontend Dockerfile name if different
+    restart: always
+    ports:
+      - "3000:3000"  # Adjust port as needed, this is for development
+    networks:
+      - attendancecluster
 
 networks:
   attendancecluster:
