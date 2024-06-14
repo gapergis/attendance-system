@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kongdb
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kongdb
+  template:
+    metadata:
+      labels:
+        app: kongdb
+    spec:
+      containers:
+        - name: postgres
+          image: postgres:latest
+          env:
+            - name: POSTGRES_DB
+              value: kongdb
+            - name: POSTGRES_USER
+              value: admin
+            - name: POSTGRES_PASSWORD
+              value: admin
+          ports:
+            - containerPort: 5434
+          volumeMounts:
+            - name: kongdb-data  # Updated volume name
+              mountPath: /var/lib/postgresql/data
+      volumes:
+        - name: kongdb-pvc  # Define the volume
+          persistentVolumeClaim:
+            claimName: kongdb-pvc  # Reference the PVC created above
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: kongdb
+spec:
+  selector:
+    app: kongdb
+  ports:
+    - protocol: TCP
+      port: 5434
+      targetPort: 5434

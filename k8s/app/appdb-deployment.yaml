@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: appdb
+  namespace: app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: appdb
+  template:
+    metadata:
+      labels:
+        app: appdb
+    spec:
+      containers:
+        - name: appdb
+          image: postgres:latest
+          env:
+            - name: POSTGRES_DB
+              value: attendancedb
+            - name: POSTGRES_USER
+              value: admin
+            - name: POSTGRES_PASSWORD
+              value: admin
+          ports:
+            - containerPort: 5432
+          volumeMounts:
+            - name: appdb-data  # Updated volume name
+              mountPath: /var/lib/postgresql/data
+      volumes:
+        - name: appdb-data-pvc  # Define the volume
+          persistentVolumeClaim:
+            claimName: appdb-data-pvc  # Reference the PVC created above
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: appdb
+spec:
+  selector:
+    app: appdb
+  ports:
+    - protocol: TCP
+      port: 5432
+      targetPort: 5432

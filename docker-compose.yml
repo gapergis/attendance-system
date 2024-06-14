@@ -73,6 +73,7 @@ services:
 
   kong:
     image: kong:latest
+    command: kong migrations up
     restart: unless-stopped
     environment:
       KONG_DATABASE: postgres
