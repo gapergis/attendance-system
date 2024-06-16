@@ -26,17 +26,18 @@ spec:
           ports:
             - containerPort: 5432
           volumeMounts:
-            - name: appdb-data  # Updated volume name
+            - name: appdb-data
               mountPath: /var/lib/postgresql/data
       volumes:
-        - name: appdb-data-pvc  # Define the volume
+        - name: appdb-data
           persistentVolumeClaim:
-            claimName: appdb-data-pvc  # Reference the PVC created above
+            claimName: appdb-data-pvc
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: appdb
+  namespace: app
 spec:
   selector:
     app: appdb
