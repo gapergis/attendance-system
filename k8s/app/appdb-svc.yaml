@@ -1,15 +1,13 @@
 apiVersion: v1
 kind: Service
 metadata:
-  labels:
-    app: appdb  # Ensure this matches the labels in your appdb Deployment
-  name: postgres
-  namespace: app  # Ensure this matches your namespace
+  name: appdb
+  namespace: default
 spec:
-  ports:
-    - port: 5432
-      protocol: TCP
-      targetPort: 5432
   selector:
-    app: postgres  # Ensure this matches the labels in your appdb Deployment
+    app: appdb
+  ports:
+    - protocol: TCP
+      port: 5432
+      targetPort: 5432
   type: ClusterIP

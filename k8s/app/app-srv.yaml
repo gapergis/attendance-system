@@ -2,10 +2,10 @@ apiVersion: v1
 kind: Service
 metadata:
   name: app
-  namespace: app  # Ensure this matches the namespace of your app deployment
+  namespace: default
 spec:
   selector:
-    app: app  # Ensure this matches the labels in your app Deployment
+    app: app
   ports:
     - protocol: TCP
       port: 8083

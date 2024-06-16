@@ -2,26 +2,26 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: app-ingress
-  namespace: default  # Ensure this matches your namespace if not 'default'
+  namespace: default
   annotations:
-    ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/rewrite-target: /
     nginx.ingress.kubernetes.io/ssl-redirect: "true"
     nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
     cert-manager.io/cluster-issuer: "letsencrypt-prod"
 spec:
   ingressClassName: nginx
   rules:
-    - host: "keycloak-apergis.ddns.net"
+    - host: "apergisdev-app.ddns.net"
       http:
         paths:
           - path: /
             pathType: ImplementationSpecific
             backend:
               service:
-                name: app  # Corrected service name to match the actual service name 'app'
+                name: app
                 port:
-                  number: 8083  # Corrected port number to match the service port
+                  number: 8083
   tls:
     - hosts:
-        - keycloak-apergis.ddns.net
-      secretName: app-production-certificate  # Ensure the secret name matches your TLS secret
+        - apergisdev-app.ddns.net
+      secretName: app-production-certificate

@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: appdb
-  namespace: app
+  namespace: default
 spec:
   replicas: 1
   selector:
@@ -16,6 +16,8 @@ spec:
       containers:
         - name: appdb
           image: postgres:latest
+          ports:
+            - containerPort: 5432
           env:
             - name: POSTGRES_DB
               value: attendancedb
@@ -23,8 +25,6 @@ spec:
               value: admin
             - name: POSTGRES_PASSWORD
               value: admin
-          ports:
-            - containerPort: 5432
           volumeMounts:
             - name: appdb-data
               mountPath: /var/lib/postgresql/data
@@ -32,16 +32,3 @@ spec:
         - name: appdb-data
           persistentVolumeClaim:
             claimName: appdb-data-pvc
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: appdb
-  namespace: app
-spec:
-  selector:
-    app: appdb
-  ports:
-    - protocol: TCP
-      port: 5432
-      targetPort: 5432
