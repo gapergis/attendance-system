@@ -4,7 +4,7 @@ metadata:
   labels:
     app: postgres
   name: postgres
-  namespace: kong
+  namespace: default
 spec:
   ports:
     - port: 5432
