@@ -1,8 +1,8 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: kong-ssl-ingress
-  namespace: kong
+  name: keycloak-ssl-ingress
+  namespace: keycloak
   annotations:
     ingress.kubernetes.io/rewrite-target: /
     kubernetes.io/tls-acme: "true"
@@ -19,10 +19,10 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: kong
+                name: keycloak
                 port:
-                  name: kong
+                  name: keycloak
   tls:
     - hosts:
-        - keycloak-apergis.ddns.net
-      secretName: app-production-certificate
+        - apergisdev-app.ddns.net
+      secretName: keycloak-production-certificate
