@@ -11,3 +11,16 @@ spec:
       port: 8083
       targetPort: 8083
   type: ClusterIP
+
+
+
+
+
+
+
+
+
+
+
+
+
