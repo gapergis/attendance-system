@@ -20,7 +20,7 @@ spec:
               service:
                 name: kong
                 port:
-                  number: 8080
+                  number: 8000
   tls:
     - hosts:
         - apergisdev-kong.ddns.net

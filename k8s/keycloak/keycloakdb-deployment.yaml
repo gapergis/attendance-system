@@ -2,18 +2,18 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: postgres
-  name: postgres
-  namespace: keycloak
+    app: keycloakdb
+  name: keycloakdb
+  namespace: default
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: postgres
+      app: keycloakdb
   template:
     metadata:
       labels:
-        app: postgres
+        app: keycloakdb
     spec:
       containers:
         - env:
@@ -22,14 +22,14 @@ spec:
             - name: POSTGRES_USER
               value: keycloaddbuser
             - name: POSTGRES_DB
-              value: dbkeycloak
+              value: keycloakdb
           image: postgres:16
-          name: postgres
+          name: keycloakdb
           ports:
             - containerPort: 5432
           volumeMounts:
             - mountPath: /var/lib/postgresql/data
-              name: db-pvc
+              name: kcdb-pvc
           resources:
             limits:
               cpu: 200m
