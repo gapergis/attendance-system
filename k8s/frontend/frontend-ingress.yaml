@@ -11,7 +11,7 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-    - host: "apergisdev-app.ddns.net"
+    - host: "apergisdev-frontend.ddns.net"
       http:
         paths:
           - path: /
@@ -23,5 +23,5 @@ spec:
                   number: 3000
   tls:
     - hosts:
-        - apergisdev-app.ddns.net
+        - apergisdev-frontend.ddns.net
       secretName: front-production-certificate
