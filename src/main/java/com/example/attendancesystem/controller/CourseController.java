@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT})
+@CrossOrigin(origins = "https://apergisdev-frontend.ddns.net", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT})
 @RequestMapping("/courses")
 public class CourseController {
 
@@ -53,7 +53,7 @@ public class CourseController {
         return courseService.getCoursesForStudent(studentId);
     }
     // Other endpoints for updating and deleting courses can be added here
-    @PostMapping
+    @PostMapping ("/add")
     public ResponseEntity<Course> createCourse(@RequestBody Course course) {
         Course createdCourse = courseService.createCourse(course);
         return ResponseEntity.ok(createdCourse);

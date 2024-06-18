@@ -14,7 +14,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/attendances")
-@CrossOrigin(origins = "http://localhost:3000", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT})
+@CrossOrigin(origins = "https://apergisdev-frontend.ddns.net", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT})
 public class AttendanceController {
 
     @Autowired
@@ -26,13 +26,11 @@ public class AttendanceController {
 
     @PutMapping("/create")
     public ResponseEntity<Attendance> createAttendance(@RequestBody Attendance attendance) {
-        System.out.println("Received lectureId: " + attendance.getLectureId());
-        System.out.println("Received studentId: " + attendance.getStudentId());
         Attendance createdAttendance = attendanceService.createAttendance(attendance);
         return ResponseEntity.ok(createdAttendance);
     }
 
-    @PostMapping
+    @PostMapping ("/add")
     public Attendance markAttendance(@RequestBody Attendance attendance) {
         return attendanceService.markAttendance(attendance);
     }
@@ -81,6 +79,4 @@ public class AttendanceController {
             return ResponseEntity.badRequest().body("Failed to update attendance status: " + e.getMessage());
         }
     }
-
-    // Other endpoints for confirming attendance, fetching attendance by student ID, etc., can be added here
 }
