@@ -1,4 +1,4 @@
-apiVersion: networking.k8s.io/v1
+GNU nano 6.2                                                                                                   app-ingress.yaml                                                                                                            apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: app-ingress
@@ -25,3 +25,14 @@ spec:
     - hosts:
         - apergisdev-app.ddns.net
       secretName: app-production-certificate
+
+
+
+
+
+
+
+
+
+
+

@@ -1,7 +1,7 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: app-ingress
+  name: kong-ingress
   namespace: default
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
@@ -11,17 +11,17 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-    - host: "apergisdev-frontend.ddns.net"
+    - host: "apergisdev-kong.ddns.net"
       http:
         paths:
           - path: /
             pathType: ImplementationSpecific
             backend:
               service:
-                name: frontend
+                name: kong
                 port:
-                  number: 3000
+                  number: 8000
   tls:
     - hosts:
-        - apergisdev-frontend.ddns.net
-      secretName: front-production-certificate
+        - apergisdev-kong.ddns.net
+      secretName: kong-production-certificate
