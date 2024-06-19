@@ -16,7 +16,7 @@ spec:
       containers:
         - name: kong
           image: kong:latest
-          command: ["kong", "migrations", "bootstrap"]
+#          command: ["kong", "migrations", "up"]
           env:
             - name: KONG_DATABASE
               value: postgres

@@ -1,4 +1,4 @@
-GNU nano 6.2                                                                                                   app-ingress.yaml                                                                                                            apiVersion: networking.k8s.io/v1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: app-ingress
@@ -14,13 +14,6 @@ spec:
     - host: apergisdev-app.ddns.net
       http:
         paths:
-          - path: /.well-known/acme-challenge/*
-            pathType: ImplementationSpecific
-            backend:
-              service:
-                name: cm-acme-http-solver-cpnn4
-                port:
-                  number: 8089
           - path: /
             pathType: ImplementationSpecific
             backend:
@@ -32,14 +25,3 @@ spec:
     - hosts:
         - apergisdev-app.ddns.net
       secretName: app-production-certificate
-
-
-
-
-
-
-
-
-
-
-

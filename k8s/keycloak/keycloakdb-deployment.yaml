@@ -29,8 +29,8 @@ spec:
             - containerPort: 5432
           volumeMounts:
             - mountPath: /var/lib/postgresql/data
-              name: kcdb-pvc2
+              name: kcdb-pvc
       volumes:
-        - name: kcdb-pvc2
+        - name: kcdb-pvc
           persistentVolumeClaim:
-            claimName: kcdb-pvc2
+            claimName: kcdb-pvc

@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: kcdb-pvc2
+  name: kcdb-pvc
   namespace: default
   labels:
     pvc: db
