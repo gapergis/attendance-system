@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@CrossOrigin(origins = "https://apergisdev-frontend.ddns.net", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT})
+@CrossOrigin(origins = "http://frontend:3000", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT})
 @RequestMapping("/courses")
 public class CourseController {
 
@@ -38,7 +38,7 @@ public class CourseController {
         return courseService.getAllCourses();
     }
 
-    @GetMapping("/{courseId}")
+    @GetMapping("/byId/{courseId}")
     public Optional<Course> getCourseById(@PathVariable Long courseId) {
         return courseService.getCourseById(courseId);
     }

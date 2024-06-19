@@ -29,15 +29,8 @@ spec:
             - containerPort: 5432
           volumeMounts:
             - mountPath: /var/lib/postgresql/data
-              name: kcdb-pvc
-          resources:
-            limits:
-              cpu: 200m
-              memory: 200Mi
-            requests:
-              cpu: 100m
-              memory: 100Mi
+              name: kcdb-pvc2
       volumes:
-        - name: kcdb-pvc
+        - name: kcdb-pvc2
           persistentVolumeClaim:
-            claimName: kcdb-pvc
+            claimName: kcdb-pvc2

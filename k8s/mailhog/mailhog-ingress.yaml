@@ -1,28 +1,27 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: keycloak-ingress
-  namespace: keycloak
+  name: mailhog-ingress
+  namespace: default
   annotations:
-    ingress.kubernetes.io/rewrite-target: /
-    kubernetes.io/tls-acme: "true"
+    nginx.ingress.kubernetes.io/rewrite-target: /
     nginx.ingress.kubernetes.io/ssl-redirect: "true"
     nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
     cert-manager.io/cluster-issuer: "letsencrypt-prod"
 spec:
   ingressClassName: nginx
   rules:
-    - host: "apergisdev-keycloak.ddns.net"
+    - host: "apergisdev-mailhog.ddns.net"
       http:
         paths:
           - path: /
-            pathType: Prefix
+            pathType: ImplementationSpecific
             backend:
               service:
-                name: keycloak
+                name: mailhog
                 port:
-                  name: keycloak
+                  number: 8025
   tls:
     - hosts:
-        - apergisdev-keycloak.ddns.net
-      secretName: keycloak-production-certificate
+        - apergisdev-mailhog.ddns.net
+      secretName: mailhog-production-certificate

@@ -15,7 +15,7 @@ public class WebConfig implements WebMvcConfigurer {
     public void addCorsMappings(CorsRegistry registry) {
         logger.info("Applying CORS configuration");
         registry.addMapping("/**")
-                .allowedOrigins("https://apergisdev-frontend.ddns.net")
+                .allowedOrigins("http://frontend:3000")
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                 .allowedHeaders("*");
     }

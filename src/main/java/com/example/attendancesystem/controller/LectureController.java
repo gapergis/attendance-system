@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@CrossOrigin(origins = "https://apergisdev-frontend.ddns.net", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT})
+@CrossOrigin(origins = "http://frontend:3000", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT})
 @RequestMapping("/lectures")
 public class LectureController {
 
@@ -28,7 +28,7 @@ public class LectureController {
     @Autowired
     private UserService userService;
 
-    @PutMapping("/create")
+    @PutMapping("/add")
     public ResponseEntity<Lecture> createLecture(@RequestBody Lecture lecture) {
         Lecture createdLecture = lectureService.createLecture(lecture);
         return ResponseEntity.ok(createdLecture);
