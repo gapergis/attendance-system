@@ -2,8 +2,8 @@ apiVersion: v1
 kind: Service
 metadata:
   labels:
-    app: keycloakdb
-  name: keycloakdb
+    app: kcdb
+  name: kcdb
   namespace: default
 spec:
   ports:
@@ -11,5 +11,5 @@ spec:
       protocol: TCP
       targetPort: 5432
   selector:
-    app: keycloakdb
+    app: kcdb
   type: ClusterIP
