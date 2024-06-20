@@ -28,7 +28,7 @@ public class LectureController {
     @Autowired
     private UserService userService;
 
-    @PutMapping("/add")
+    @PostMapping("/add")
     public ResponseEntity<Lecture> createLecture(@RequestBody Lecture lecture) {
         Lecture createdLecture = lectureService.createLecture(lecture);
         return ResponseEntity.ok(createdLecture);

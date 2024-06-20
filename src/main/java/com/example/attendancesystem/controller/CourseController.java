@@ -53,9 +53,8 @@ public class CourseController {
         return courseService.getCoursesForStudent(studentId);
     }
     // Other endpoints for updating and deleting courses can be added here
-    @PostMapping ("/add")
-    public ResponseEntity<Course> createCourse(@RequestBody Course course) {
-        Course createdCourse = courseService.createCourse(course);
-        return ResponseEntity.ok(createdCourse);
+    @PutMapping ("/add")
+    public Course createCourse(@RequestBody Course course) {
+        return courseService.createCourse(course);
     }
 }
