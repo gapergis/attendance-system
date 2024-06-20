@@ -21,7 +21,7 @@ spec:
               service:
                 name: keycloak
                 port:
-                  name: keycloak
+                  number: 8080
   tls:
     - hosts:
         - apergisdev-keycloak.ddns.net
