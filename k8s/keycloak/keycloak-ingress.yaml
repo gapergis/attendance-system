@@ -4,19 +4,22 @@ metadata:
   name: keycloak-ingress
   namespace: default
   annotations:
-    ingress.kubernetes.io/rewrite-target: /
-    kubernetes.io/tls-acme: "true"
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    nginx.ingress.kubernetes.io/rewrite-target: /
     nginx.ingress.kubernetes.io/ssl-redirect: "true"
     nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
-    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    nginx.ingress.kubernetes.io/affinity: "cookie"
+    nginx.ingress.kubernetes.io/session-cookie-name: "KEYCLOAK_SESSION"
+    nginx.ingress.kubernetes.io/session-cookie-hash: "sha1"
+    nginx.ingress.kubernetes.io/proxy-buffer-size: "128k"
 spec:
   ingressClassName: nginx
   rules:
-    - host: "apergisdev-keycloak.ddns.net"
+    - host: apergisdev-keycloak.ddns.net
       http:
         paths:
           - path: /
-            pathType: Prefix
+            pathType: ImplementationSpecific
             backend:
               service:
                 name: keycloak

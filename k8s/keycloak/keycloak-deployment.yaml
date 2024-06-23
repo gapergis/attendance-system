@@ -18,7 +18,7 @@ spec:
       containers:
         - name: keycloak
           image: 'quay.io/keycloak/keycloak:24.0'
-          args:  ["start-dev"]
+          args: ["start-dev"]
           ports:
             - containerPort: 8080
           env:
@@ -46,6 +46,10 @@ spec:
               value: apergisdev-keycloak.ddns.net
             - name: KC_PROXY
               value: edge
+            - name: KC_HTTP_RELATIVE_PATH
+              value: /
+            - name: PROXY_ADDRESS_FORWARDING
+              value: "true"
           volumeMounts:
             - mountPath: /opt/keycloak/data
               name: kc-pvc
