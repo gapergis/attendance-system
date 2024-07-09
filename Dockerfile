@@ -1,5 +1,5 @@
 # Use a Maven image to build the application
-FROM maven:3.8.6-openjdk-17 AS build
+FROM maven:3.9.8-amazoncorretto-21 AS build
 
 # Set the working directory inside the container
 WORKDIR /app
